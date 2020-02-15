@@ -9,12 +9,12 @@ import (
 
 func main() {
 	//load data
-	cdg_file_data, err := ioutil.ReadFile("../cdg/SC-SBI-REMIX - Billy Idol - Rebel Yell.cdg")
+	cdg_file_data, err := ioutil.ReadFile("../cdg/JVC - Nursery - Do-Re-Mi.cdg")
 	if err != nil {
 		log.Fatal("Couldn't read .cdg file")
 	}
 
-	png := karaoke.ScreenshotAtTime(cdg_file_data, 3)
+	png := karaoke.ScreenshotAtTime(cdg_file_data, 11)
 
     file, err := os.OpenFile(
 		"screenshot.png",

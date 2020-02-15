@@ -17,7 +17,7 @@ const (
 	FONT_HEIGHT     = 12        // Height of one "font" (or block).
 	NUM_X_FONTS     = 50        // Number of horizontal fonts contained in VRAM.
 	NUM_Y_FONTS     = 18        // Number of vertical fonts contained in VRAM.
-	PALETTE_ENTRIES = 16        // Number of CLUT palette entries.
+	PALETTE_ENTRIES = 64        // Number of CLUT palette entries.
 	TV_GRAPHICS     = 0x09      // 50x18 (48x16) 16 color TV graphics mode.
 	MEMORY_PRESET   = 0x01      // Set all VRAM to palette index.
 	BORDER_PRESET   = 0x02      // Set border to palette index.
