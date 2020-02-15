@@ -59,6 +59,7 @@ func ScreenshotAtTime(cdgBytes []byte, timeInSec int) []byte {
 
 	decode_packs(cdgBytes, timeInSec * PACKETS_PER_SEC)
 	redrawCanvas()
+	defer resetCDGState()
 	return snap()
 
 	//This command works, outputting the images as a video
