@@ -1,12 +1,9 @@
 package karaoke
 
 import (
-	"fmt"
+	"bytes"
 	"image"
 	"image/png"
-	"io/ioutil"
-	"log"
-	"os"
 )
 
 const (
@@ -71,7 +68,7 @@ func ScreenshotAtTime(cdgBytes []byte, timeInSec int) []byte {
 /** @Return raw PNG buffer **/
 func snap() []byte {
 	buf := new(bytes.Buffer)
-	png.Encode(out_file, internal_rgba_context)
+	png.Encode(buf, internal_rgba_context)
 	return buf.Bytes()
 }
 
