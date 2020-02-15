@@ -1,4 +1,4 @@
-package main
+package karaoke
 
 import (
 	"fmt"
@@ -31,6 +31,7 @@ const (
 	XOR_FONT      = 0x26 // XOR 12x6 pixel font with existing VRAM values.
 	SCROLL_PRESET = 0x14 // Update scroll offset, copying if 0x20 or 0x10.
 	SCROLL_COPY   = 0x18 // Update scroll offset, setting color if 0x20 or 0x10.
+	PACKETS_PER_SEC = 300
 )
 
 var (
@@ -56,41 +57,22 @@ func init() {
 	internal_rgba_imagedata = internal_rgba_context.Pix
 }
 
-func main() {
+/** @Return raw PNG buffer **/
+func ScreenshotAtTime(cdgBytes []byte, timeInSec int) []byte {
 
-	//load data
-	cdg_file_data, err := ioutil.ReadFile("cdg/SC-SBI-REMIX - Billy Idol - Rebel Yell.cdg")
-	if err != nil {
-		log.Fatal("Couldn't read .cdg file")
-	}
-
-	fmt.Println("File Length: ", len(cdg_file_data))
-
-	//TODO: fix bug, for some reason can't loop over all the bytes of the len(cdg_file_data)
-	//loop through some bytes
-	for i := 0; i < 20000; i++ {
-		decode_packs(cdg_file_data, i)
-		redrawCanvas()
-		if i%100 == 0 {
-			snap(i)
-		}
-	}
+	decode_packs(cdgBytes, timeInSec * PACKETS_PER_SEC)
+	redrawCanvas()
+	return snap()
 
 	//This command works, outputting the images as a video
 	//ffmpeg.exe -r 1/5 -i blank-%d.png -c:v libx264 -r 30 -pix_fmt yuv420p out.mp4
-
 }
 
-func snap(count int) {
-	out_filename := fmt.Sprintf("screenshots/blank-%d.png", imageCount)
-	out_file, err := os.Create(out_filename)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer out_file.Close()
-	log.Print("Saving image to: ", out_filename)
+/** @Return raw PNG buffer **/
+func snap() []byte {
+	buf := new(bytes.Buffer)
 	png.Encode(out_file, internal_rgba_context)
-	imageCount++
+	return buf.Bytes()
 }
 
 func resetCDGState() {
